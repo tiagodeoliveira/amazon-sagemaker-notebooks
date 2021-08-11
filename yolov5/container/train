@@ -1,0 +1,21 @@
+#!/usr/bin/env python3
+
+import os
+import sys
+import json
+
+sys.path.append('/opt/yolov5')
+
+import train
+
+with open('/opt/ml/input/data/config/params.json') as params_file:
+    params = json.load(params_file)
+    train_params = params['train']
+
+opt = train.parse_opt(True)
+for p in train_params:
+    value = train_params[p]
+    if value:
+        setattr(opt, p, value)
+
+train.main(opt)
